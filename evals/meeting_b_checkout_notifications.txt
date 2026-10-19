@@ -1,0 +1,7 @@
+[00:00] Client: Checkout has too many abandoned payments.
+[00:15] Client: We want to connect our payment provider to checkout and show a confirmation after successful payment.
+[00:34] Consultant: Which provider and credentials?
+[00:39] Client: We have not chosen the provider; please leave that as an open question.
+[00:51] Client: We must send a receipt email and an administrator notification after payment.
+[01:12] Client: Do not store card numbers in our application.
+[01:25] Consultant: We will document the integration dependency and review the provider's supported API.

@@ -1,0 +1,61 @@
+# Production overlay for a single host behind a separately managed TLS reverse proxy.
+# Keep this app bound to loopback and terminate HTTPS at the host/proxy layer.
+services:
+  postgres:
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set a strong POSTGRES_PASSWORD}
+
+  knowledge-brain:
+    environment:
+      APP_ENV: production
+      DATABASE_URL: postgresql://consultant:${POSTGRES_PASSWORD:?Set a strong POSTGRES_PASSWORD}@postgres:5432/consultant
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:?Set ANTHROPIC_API_KEY}
+      CLAUDE_MODEL_PRIMARY: ${CLAUDE_MODEL_PRIMARY:?Set an account-supported Claude model ID}
+      CLAUDE_VISION_MODEL: ${CLAUDE_VISION_MODEL:?Set an account-supported Claude vision model ID}
+      EMBEDDING_PROVIDER: openai
+      EMBEDDING_MODEL: ${EMBEDDING_MODEL:?Set an account-supported embedding model ID}
+      EMBEDDING_DIMENSIONS: ${EMBEDDING_DIMENSIONS:-1536}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:?Set OPENAI_API_KEY for embeddings}
+      ADMIN_API_TOKEN: ${ADMIN_API_TOKEN:?Set a long random ADMIN_API_TOKEN}
+      TASK1_SERVICE_TOKEN: ${TASK1_SERVICE_TOKEN:?Set a long random TASK1_SERVICE_TOKEN}
+
+  knowledge-refresh:
+    environment:
+      APP_ENV: production
+      DATABASE_URL: postgresql://consultant:${POSTGRES_PASSWORD:?Set a strong POSTGRES_PASSWORD}@postgres:5432/consultant
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:?Set ANTHROPIC_API_KEY}
+      CLAUDE_MODEL_PRIMARY: ${CLAUDE_MODEL_PRIMARY:?Set an account-supported Claude model ID}
+      CLAUDE_VISION_MODEL: ${CLAUDE_VISION_MODEL:?Set an account-supported Claude vision model ID}
+      EMBEDDING_PROVIDER: openai
+      EMBEDDING_MODEL: ${EMBEDDING_MODEL:?Set an account-supported embedding model ID}
+      EMBEDDING_DIMENSIONS: ${EMBEDDING_DIMENSIONS:-1536}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:?Set OPENAI_API_KEY for embeddings}
+      TASK1_SERVICE_TOKEN: ${TASK1_SERVICE_TOKEN:?Set a long random TASK1_SERVICE_TOKEN}
+
+  inbox-agent:
+    environment:
+      APP_ENV: production
+      DATABASE_URL: postgresql://consultant:${POSTGRES_PASSWORD:?Set a strong POSTGRES_PASSWORD}@postgres:5432/consultant
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:?Set ANTHROPIC_API_KEY}
+      CLAUDE_MODEL_PRIMARY: ${CLAUDE_MODEL_PRIMARY:?Set an account-supported Claude model ID}
+      TASK1_SERVICE_TOKEN: ${TASK1_SERVICE_TOKEN:?Set a long random TASK1_SERVICE_TOKEN}
+      ADMIN_API_TOKEN: ${ADMIN_API_TOKEN:?Set a long random ADMIN_API_TOKEN}
+      EMAIL_PROVIDER: ${EMAIL_PROVIDER:-simulated}
+      RESEND_API_KEY: ${RESEND_API_KEY:-}
+      EMAIL_FROM: ${EMAIL_FROM:-AI Tech Consultant <onboarding@resend.dev>}
+      AUTO_SEND_ENABLED: "false"
+      GLOBAL_AUTOMATION_DISABLED: "true"
+
+  meeting-to-scope:
+    environment:
+      APP_ENV: production
+      DATABASE_URL: postgresql://consultant:${POSTGRES_PASSWORD:?Set a strong POSTGRES_PASSWORD}@postgres:5432/consultant
+      STORAGE_MODE: postgres
+      TASK1_SERVICE_TOKEN: ${TASK1_SERVICE_TOKEN:?Set a long random TASK1_SERVICE_TOKEN}
+      ADMIN_API_TOKEN: ${ADMIN_API_TOKEN:?Set a long random ADMIN_API_TOKEN}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:?Set ANTHROPIC_API_KEY}
+      CLAUDE_MODEL_PRIMARY: ${CLAUDE_MODEL_PRIMARY:?Set an account-supported Claude model ID}
+
+  frontend:
+    ports:
+      - "127.0.0.1:${FRONTEND_PORT:-5173}:80"

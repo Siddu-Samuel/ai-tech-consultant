@@ -1,0 +1,139 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: consultant
+      POSTGRES_USER: consultant
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-consultant}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U consultant -d consultant"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+  knowledge-brain:
+    build: ./task1-knowledge-brain
+    restart: unless-stopped
+    environment:
+      APP_ENV: ${APP_ENV:-demo}
+      DATABASE_URL: postgresql://consultant:${POSTGRES_PASSWORD:-consultant}@postgres:5432/consultant
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      CLAUDE_MODEL_PRIMARY: ${CLAUDE_MODEL_PRIMARY:-}
+      CLAUDE_VISION_MODEL: ${CLAUDE_VISION_MODEL:-}
+      EMBEDDING_PROVIDER: ${EMBEDDING_PROVIDER:-local-test}
+      EMBEDDING_MODEL: ${EMBEDDING_MODEL:-}
+      EMBEDDING_DIMENSIONS: ${EMBEDDING_DIMENSIONS:-64}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      ADMIN_API_TOKEN: ${ADMIN_API_TOKEN:-}
+      TASK1_SERVICE_TOKEN: ${TASK1_SERVICE_TOKEN:-}
+      CRAWL_MANIFEST_PATH: /app/data/knowledge_manifest.json
+    volumes:
+      - knowledge_manifest:/app/data
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8001/health')"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+  knowledge-refresh:
+    build: ./task1-knowledge-brain
+    restart: unless-stopped
+    command: ["python", "-m", "app.scheduler"]
+    environment:
+      APP_ENV: ${APP_ENV:-demo}
+      DATABASE_URL: postgresql://consultant:${POSTGRES_PASSWORD:-consultant}@postgres:5432/consultant
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      CLAUDE_MODEL_PRIMARY: ${CLAUDE_MODEL_PRIMARY:-}
+      CLAUDE_VISION_MODEL: ${CLAUDE_VISION_MODEL:-}
+      EMBEDDING_PROVIDER: ${EMBEDDING_PROVIDER:-local-test}
+      EMBEDDING_MODEL: ${EMBEDDING_MODEL:-}
+      EMBEDDING_DIMENSIONS: ${EMBEDDING_DIMENSIONS:-64}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      TASK1_SERVICE_TOKEN: ${TASK1_SERVICE_TOKEN:-}
+      DAILY_REFRESH_UTC_HOUR: ${DAILY_REFRESH_UTC_HOUR:-2}
+      CRAWL_MANIFEST_PATH: /app/data/knowledge_manifest.json
+    volumes:
+      - knowledge_manifest:/app/data
+    depends_on:
+      postgres:
+        condition: service_healthy
+      knowledge-brain:
+        condition: service_healthy
+  inbox-agent:
+    build:
+      context: .
+      dockerfile: task2-inbox-agent/Dockerfile
+    restart: unless-stopped
+    environment:
+      APP_ENV: ${APP_ENV:-demo}
+      REPOSITORY_MODE: postgres
+      DATABASE_URL: postgresql://consultant:${POSTGRES_PASSWORD:-consultant}@postgres:5432/consultant
+      INBOX_AGENT_PORT: 8002
+      KNOWLEDGE_BRAIN_URL: http://knowledge-brain:8001
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      CLAUDE_MODEL_PRIMARY: ${CLAUDE_MODEL_PRIMARY:-}
+      TASK1_SERVICE_TOKEN: ${TASK1_SERVICE_TOKEN:-}
+      EMAIL_PROVIDER: ${EMAIL_PROVIDER:-simulated}
+      RESEND_API_KEY: ${RESEND_API_KEY:-}
+      EMAIL_FROM: ${EMAIL_FROM:-AI Tech Consultant <onboarding@resend.dev>}
+      AUTO_SEND_ENABLED: ${AUTO_SEND_ENABLED:-false}
+      GLOBAL_AUTOMATION_DISABLED: ${GLOBAL_AUTOMATION_DISABLED:-true}
+      ADMIN_API_TOKEN: ${ADMIN_API_TOKEN:-}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      knowledge-brain:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:8002/health').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+  meeting-to-scope:
+    build: ./task3-meeting-to-scope
+    restart: unless-stopped
+    environment:
+      APP_ENV: ${APP_ENV:-demo}
+      DATABASE_URL: postgresql://consultant:${POSTGRES_PASSWORD:-consultant}@postgres:5432/consultant
+      STORAGE_MODE: postgres
+      KNOWLEDGE_BRAIN_URL: http://knowledge-brain:8001
+      TASK1_SERVICE_TOKEN: ${TASK1_SERVICE_TOKEN:-}
+      ADMIN_API_TOKEN: ${ADMIN_API_TOKEN:-}
+      HOURLY_RATE: ${HOURLY_RATE:-0}
+      CURRENCY: ${CURRENCY:-USD}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      CLAUDE_MODEL_PRIMARY: ${CLAUDE_MODEL_PRIMARY:-}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      knowledge-brain:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8003/health')"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+  frontend:
+    build: ./frontend
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${FRONTEND_PORT:-5173}:80"
+    depends_on:
+      inbox-agent:
+        condition: service_healthy
+      meeting-to-scope:
+        condition: service_healthy
+      knowledge-brain:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1/"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+volumes:
+  postgres_data:
+  knowledge_manifest:

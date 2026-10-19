@@ -1,0 +1,6 @@
+[00:00] Client: Our member directory search is hard to use on phones.
+[00:18] Consultant: What would make it easier?
+[00:25] Client: We need visitors to filter by location and service, and the filter controls must work on mobile.
+[00:52] Client: Please include a clear empty-results message. We can supply the service categories next week.
+[01:10] Consultant: Should the filters be visible on every page?
+[01:16] Client: Maybe; let us review a prototype before deciding.

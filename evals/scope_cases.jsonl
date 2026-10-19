@@ -1,0 +1,20 @@
+{"id":"SCP-001","title":"Search filters","transcript":"Client: We need a location filter and service filter on mobile.","expected":{"requirements_min":1,"unknown_feasibility_allowed":true}}
+{"id":"SCP-002","title":"Payment connection","transcript":"Client: We must integrate our selected payment provider. Provider is not chosen.","expected":{"open_question":true,"no_fixed_date":true}}
+{"id":"SCP-003","title":"Notifications","transcript":"Client: Send a receipt email after payment and notify the administrator.","expected":{"requirements_min":1}}
+{"id":"SCP-004","title":"Catalog","transcript":"Client: Add a searchable catalog with categories. We can provide product data.","expected":{"requirements_min":1}}
+{"id":"SCP-005","title":"Mobile design","transcript":"Client: The booking form must work on phones and tablets.","expected":{"requirements_min":1}}
+{"id":"SCP-006","title":"Data migration","transcript":"Client: Migrate our current customer records; field mapping is not yet decided.","expected":{"open_question":true}}
+{"id":"SCP-007","title":"Access roles","transcript":"Client: We need editor and administrator roles with different permissions.","expected":{"requirements_min":1}}
+{"id":"SCP-008","title":"Analytics","transcript":"Client: Add analytics dashboards. We have not selected the analytics vendor.","expected":{"open_question":true}}
+{"id":"SCP-009","title":"Search follow-up","transcript":"Client: Add a service-area filter. Remove the empty-results message. Change mobile support to include tablets.","expected":{"changes_min":1}}
+{"id":"SCP-010","title":"Security","transcript":"Client: We must use single sign-on and must never store passwords in this application.","expected":{"requirements_min":1}}
+{"id":"SCP-011","title":"Booking","transcript":"Client: We want customers to book an appointment and receive a confirmation.","expected":{"requirements_min":1}}
+{"id":"SCP-012","title":"Content","transcript":"Client: Please import our existing articles and preserve their public URLs.","expected":{"requirements_min":1}}
+{"id":"SCP-013","title":"Localization","transcript":"Client: We may need Spanish later, but we have not confirmed it.","expected":{"unclear_requirement":true}}
+{"id":"SCP-014","title":"Performance","transcript":"Client: Search results should load quickly. We need to define the measurable target.","expected":{"open_question":true}}
+{"id":"SCP-015","title":"CRM link","transcript":"Client: Connect the contact form to our CRM. We still need to confirm which CRM account.","expected":{"open_question":true}}
+{"id":"SCP-016","title":"Accessibility","transcript":"Client: The redesigned pages must be keyboard accessible.","expected":{"requirements_min":1}}
+{"id":"SCP-017","title":"Audit history","transcript":"Client: We need an audit log that records who changed each profile.","expected":{"requirements_min":1}}
+{"id":"SCP-018","title":"Saved searches","transcript":"Client: Perhaps include saved searches; we need to discuss whether that is in scope.","expected":{"unclear_requirement":true}}
+{"id":"SCP-019","title":"Payments follow-up","transcript":"Client: Remove stored card details. Add a receipt email. Change the integration to the provider we selected yesterday.","expected":{"requirements_min":1}}
+{"id":"SCP-020","title":"Empty transcript intent","transcript":"Client: We need to review the proposed solution and agree on acceptance criteria.","expected":{"requirements_min":1}}

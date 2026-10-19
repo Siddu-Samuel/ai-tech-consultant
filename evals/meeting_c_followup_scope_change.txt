@@ -1,0 +1,7 @@
+[00:00] Client: Following up on the search project we discussed.
+[00:12] Client: Add a service-area filter to the agreed location and service filters.
+[00:25] Client: Remove the empty-results message; we will use the existing page behavior.
+[00:39] Client: Change the mobile requirement: delivery expectation is now that filters work on phones and tablets before our October campaign.
+[00:55] Consultant: The campaign date is a client expectation, not a committed delivery date. We need to re-estimate.
+[01:07] Client: Correct. Keep the date as a planning constraint pending approval.
+[01:19] Client: We may also want saved searches, but that is still undecided.

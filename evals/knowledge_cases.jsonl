@@ -1,0 +1,20 @@
+{"id":"KB-001","question":"configure member search filters","evidence":"Open member search settings and choose filters for city and category.","expected":"answered","keywords":["search","filters"]}
+{"id":"KB-002","question":"change profile fields","evidence":"Profile settings allow administrators to select visible member fields.","expected":"answered","keywords":["profile","fields"]}
+{"id":"KB-003","question":"upload profile image","evidence":"Use the profile editor image upload control to replace a member photo.","expected":"answered","keywords":["profile","image"]}
+{"id":"KB-004","question":"configure email notifications","evidence":"Lead notification settings control email alerts for new inquiries.","expected":"answered","keywords":["email","notifications"]}
+{"id":"KB-005","question":"change search sort order","evidence":"Search settings include the default result sort order.","expected":"answered","keywords":["search","sort"]}
+{"id":"KB-006","question":"add directory service categories","evidence":"Manage service categories in the directory category editor.","expected":"answered","keywords":["service","categories"]}
+{"id":"KB-007","question":"mobile header configuration","evidence":"Theme settings provide controls for the mobile header layout.","expected":"answered","keywords":["mobile","header"]}
+{"id":"KB-008","question":"member signup form","evidence":"Signup form settings define the fields required for new members.","expected":"answered","keywords":["signup","form"]}
+{"id":"KB-009","question":"payment checkout setup","evidence":"Checkout payment settings connect an enabled payment provider.","expected":"answered","keywords":["checkout","payment"]}
+{"id":"KB-010","question":"admin account password","evidence":"Administrators can reset account passwords through the secure login page.","expected":"answered","keywords":["admin","password"]}
+{"id":"KB-011","question":"search filters conflict","evidence":"Search filters support city and category. Search filters do not support multiple regions.","expected":"conflict","keywords":["search","filters"]}
+{"id":"KB-012","question":"CRM integration capability","evidence":"The public help center does not document a CRM integration.","expected":"unknown","keywords":["crm","integration"]}
+{"id":"KB-013","question":"refund policy","evidence":"Refund policy details are not published in this product guide.","expected":"unknown","keywords":["refund","policy"]}
+{"id":"KB-014","question":"mobile search behavior","evidence":"Mobile directory search uses the same filter settings as desktop search.","expected":"answered","keywords":["mobile","search"]}
+{"id":"KB-015","question":"directory data export","evidence":"Administrators can export directory data from the data management tools.","expected":"answered","keywords":["directory","export"]}
+{"id":"KB-016","question":"booking calendar integration","evidence":"No booking calendar integration instructions are available in the source material.","expected":"unknown","keywords":["booking","calendar"]}
+{"id":"KB-017","question":"member profile visibility","evidence":"Profile visibility options determine which fields visitors see.","expected":"answered","keywords":["profile","visibility"]}
+{"id":"KB-018","question":"lead notifications","evidence":"Notification preferences can enable lead alerts for selected administrators.","expected":"answered","keywords":["lead","notifications"]}
+{"id":"KB-019","question":"custom application price","evidence":"Pricing for custom application development is not stated in product documentation.","expected":"unknown","keywords":["custom","price"]}
+{"id":"KB-020","question":"member directory categories","evidence":"Directory category management lets administrators organize member listings.","expected":"answered","keywords":["directory","categories"]}
